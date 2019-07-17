@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+PROJECT_ALIAS_FILE="$HOME/.zshrc.d/060_project_aliases"
+
+add_alias() {
+  ALIAS=$1
+  PROJECT_PATH=$2
+  echo "Adding alias $ALIAS=$PROJECT_PATH"
+  echo "export $ALIAS=$PROJECT_PATH" >> $PROJECT_ALIAS_FILE
+  source $PROJECT_ALIAS_FILE
+}
+
+remove_alias() {
+  ALIAS=$1
+  echo "Removing alias $ALIAS"
+  sed -i '' "/^export $ALIAS/d" $PROJECT_ALIAS_FILE
+  unset $ALIAS
+}
+
+list_alias() {
+  grep -e '^export' "$PROJECT_ALIAS_FILE" | cut -d" " -f 2
+}
+
+# Project aliases beginning here
+
+export PROJ=$HOME/Projets
+export PRES=$HOME/Projets/Presentation
+export FORM=$HOME/Projets/Formations
+export PERS=$HOME/Perso/Projets/

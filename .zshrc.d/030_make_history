@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+my_make_history() {
+  if [ -f ~/.zsh_history.bak ]; then
+    echo "There is already a backep up history, try reseting"
+  fi
+
+  if [ ! -f "$(pwd)/zsh_history" ]; then
+    echo "No local history file"
+  fi
+  
+  mv ~/.zsh_history ~/.zsh_history.bak
+  cp $(pwd)/zsh_history ~/.zsh_history
+  fc -R
+}
+
+my_real_history() {
+  if [ -f ~/.zsh_history.bak ]; then
+    mv ~/.zsh_history.bak ~/.zsh_history
+  fi
+  fc -R
+}
+
+to_zsh_history() {
+  ZSH_HISTORY="$(pwd)/zsh_history"
+  BASH_HISTORY="$(pwd)/bash_history"
+  if [ ! -f "$BASH_HISTORY" ]; then
+    echo "No local history file"
+  fi
+  echo -n > $ZSH_HISTORY
+  while IFS="" read -r p || [ -n "$p" ]
+  do
+    echo ": $(date +'%s'):0;$p" >> $ZSH_HISTORY
+  done < $BASH_HISTORY
+}

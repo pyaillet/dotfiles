@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+# -*- sh -*-
+
+alias k='kubectl'
+
+alias nv='nvim'
+alias vi='nvim'
+alias vim='nvim'
+alias em='nvim'
+alias emacs='nvim'
