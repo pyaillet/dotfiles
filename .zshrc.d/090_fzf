@@ -14,7 +14,8 @@ bip() {
   inst=$(brew search | fzf -m)
 
   if [[ $inst ]]; then
-    for prog in "$inst"; do
+    # shellcheck disable=SC2116
+    for prog in $(echo "$inst"); do
       brew install "$prog"; 
     done;
   fi
