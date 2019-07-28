@@ -1,0 +1,7 @@
+language: generic
+
+services:
+- docker
+
+script:
+- docker run -v $(pwd)/.zshrc.d:/usr/src/app/.zshrc.d:ro koalaman/shellcheck-alpine sh -c "shellcheck /usr/src/app/.zshrc.d/*" 
