@@ -14,17 +14,18 @@ bip() {
   inst=$(brew search | fzf -m)
 
   if [[ $inst ]]; then
-    for prog in $(echo "$inst");
-      do; brew install "$prog"; done;
+    for prog in "$inst"; do
+      brew install "$prog"; 
+    done;
   fi
 }
 
 # fd - cd to selected directory
 fd() {
   local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
+  dir=$(find "${1:-.}" -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
-  cd "$dir"
+  cd "$dir" || exit
 }
 
 

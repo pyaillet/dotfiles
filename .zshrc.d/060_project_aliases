@@ -13,7 +13,7 @@ add_alias() {
 remove_alias() {
   ALIAS=$1
   echo "Removing alias $ALIAS"
-  sed -i '' "/^export $ALIAS/d" $PROJECT_ALIAS_FILE
+  sed -i '' "/^export $ALIAS/d" "$PROJECT_ALIAS_FILE"
   unset "$ALIAS"
 }
 
