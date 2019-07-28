@@ -7,6 +7,7 @@ add_alias() {
   PROJECT_PATH=$2
   echo "Adding alias $ALIAS=$PROJECT_PATH"
   echo "export $ALIAS=$PROJECT_PATH" >> "$PROJECT_ALIAS_FILE"
+  # shellcheck source=/dev/null
   source "$PROJECT_ALIAS_FILE"
 }
 
