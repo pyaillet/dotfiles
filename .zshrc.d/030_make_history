@@ -10,7 +10,7 @@ my_make_history() {
   fi
   
   mv ~/.zsh_history ~/.zsh_history.bak
-  cp $(pwd)/zsh_history ~/.zsh_history
+  cp "$(pwd)/zsh_history" ~/.zsh_history
   fc -R
 }
 
@@ -27,9 +27,9 @@ to_zsh_history() {
   if [ ! -f "$BASH_HISTORY" ]; then
     echo "No local history file"
   fi
-  echo -n > $ZSH_HISTORY
+  echo -n > "$ZSH_HISTORY"
   while IFS="" read -r p || [ -n "$p" ]
   do
-    echo ": $(date +'%s'):0;$p" >> $ZSH_HISTORY
-  done < $BASH_HISTORY
+    echo ": $(date +'%s'):0;$p" >> "$ZSH_HISTORY"
+  done < "$BASH_HISTORY"
 }

@@ -6,15 +6,16 @@ add_alias() {
   ALIAS=$1
   PROJECT_PATH=$2
   echo "Adding alias $ALIAS=$PROJECT_PATH"
-  echo "export $ALIAS=$PROJECT_PATH" >> $PROJECT_ALIAS_FILE
-  source $PROJECT_ALIAS_FILE
+  echo "export $ALIAS=$PROJECT_PATH" >> "$PROJECT_ALIAS_FILE"
+  # shellcheck source=/dev/null
+  source "$PROJECT_ALIAS_FILE"
 }
 
 remove_alias() {
   ALIAS=$1
   echo "Removing alias $ALIAS"
-  sed -i '' "/^export $ALIAS/d" $PROJECT_ALIAS_FILE
-  unset $ALIAS
+  sed -i '' "/^export $ALIAS/d" "$PROJECT_ALIAS_FILE"
+  unset "$ALIAS"
 }
 
 list_alias() {
