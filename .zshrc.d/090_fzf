@@ -29,6 +29,8 @@ fd() {
 clean_image() {
   local image=$(docker image ls --format "{{ .Size }}\t{{ .Repository }}:{{ .Tag }}" | fzf -m | awk '{ print $2 }')
   if [[ ! -z $image ]]; then
-    docker image rm $image
+    for img in $(echo $image); do
+      docker image rm $img
+    done
   fi
 }
