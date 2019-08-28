@@ -1,33 +1,34 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 # -*- sh -*-
 
 vs(){
   #List all vagrant boxes available in the system including its status, and try to access the selected one via ssh
-  # shellcheck disable=SC2002
-  cd "$(cat ~/.vagrant.d/data/machine-index/index | jq '.machines[] | {name, vagrantfile_path, state}' | jq '.name + "," + .state  + "," + .vagrantfile_path'| sed 's/^"\(.*\)"$/\1/'| column -s, -t | sort -rk 2 | fzf | awk '{print $3}')" || exit; vagrant ssh
+  cd $(cat ~/.vagrant.d/data/machine-index/index | jq '.machines[] | {name, vagrantfile_path, state}' | jq '.name + "," + .state  + "," + .vagrantfile_path'| sed 's/^"\(.*\)"$/\1/'| column -s, -t | sort -rk 2 | fzf | awk '{print $3}'); vagrant ssh
 }
 
 # Install (one or multiple) selected application(s)
 # using "brew search" as source input
 # mnemonic [B]rew [I]nstall [P]lugin
 bip() {
-  local inst
-  inst=$(brew search | fzf -m)
+  local inst=$(brew search | fzf -m)
 
   if [[ $inst ]]; then
-    # shellcheck disable=SC2116
-    for prog in $(echo "$inst"); do
-      brew install "$prog"; 
-    done;
+    for prog in $(echo $inst);
+      do; brew install $prog; done;
   fi
 }
 
 # fd - cd to selected directory
 fd() {
   local dir
-  dir=$(find "${1:-.}" -path '*/\.*' -prune \
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
-  cd "$dir" || exit
+  cd "$dir"
 }
 
-
+clean_image() {
+  local image=$(docker image ls --format "{{ .Size }}\t{{ .Repository }}:{{ .Tag }}" | fzf -m | awk '{ print $2 }')
+  if [[ ! -z $image ]]; then
+    docker image rm $image
+  fi
+}
